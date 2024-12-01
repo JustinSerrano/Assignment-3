@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -51,13 +52,16 @@
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="tgSearch" />
+                                             </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="rbName" mnemonicParsing="false" text="Name">
+                                          <RadioButton fx:id="rbName" mnemonicParsing="false" text="Name" toggleGroup="$tgSearch">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font>
                                           </RadioButton>
-                                          <RadioButton fx:id="rbType" mnemonicParsing="false" text="Type">
+                                          <RadioButton fx:id="rbType" mnemonicParsing="false" text="Type" toggleGroup="$tgSearch">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font>
@@ -68,7 +72,7 @@
                                        </padding>
                                     </HBox>
                                     <Separator prefWidth="100.0" VBox.vgrow="NEVER" />
-                                    <GridPane fx:id="lblName" alignment="CENTER_LEFT" hgap="20.0" prefHeight="150.0" prefWidth="300.0" vgap="5.0">
+                                    <GridPane alignment="CENTER_LEFT" hgap="20.0" prefHeight="150.0" prefWidth="300.0" vgap="5.0">
                                       <columnConstraints>
                                         <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
                                         <ColumnConstraints hgrow="NEVER" />
