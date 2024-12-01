@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -19,6 +18,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
 	<center>
@@ -30,17 +30,23 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 									<children>
-										<Label alignment="CENTER" contentDisplay="CENTER" layoutY="-4.0" prefHeight="40.0" prefWidth="800.0" style="-fx-font-family: Arial; -fx-font-size: 24; -fx-font-weight: Bold;" text="SEARCH INVENTORY" textAlignment="CENTER">
+										<Label alignment="CENTER" contentDisplay="CENTER" layoutY="-4.0" prefHeight="50.0" prefWidth="800.0" text="SEARCH INVENTORY" textAlignment="CENTER">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding></Label>
-										<Separator layoutY="35.0" prefWidth="800.0" />
-										<VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="35.0" prefHeight="520.0" prefWidth="300.0">
+                                 </padding>
+                                 <font>
+                                    <Font name="Arial Bold" size="24.0" />
+                                 </font></Label>
+										<Separator layoutY="44.0" prefWidth="800.0" />
+										<VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="60.0" prefHeight="495.0" prefWidth="300.0">
 											<children>
 												<Label alignment="CENTER" prefHeight="30.0" prefWidth="300.0" text="SEARCH OPTIONS:">
 													<padding>
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</padding>
+                                       <font>
+                                          <Font name="Arial Bold Italic" size="12.0" />
+                                       </font>
 												</Label>
 												<HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" spacing="10.0">
 													<children>
@@ -48,11 +54,18 @@
 															<toggleGroup>
 																<ToggleGroup fx:id="tgSearch" />
 															</toggleGroup>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
 														</RadioButton>
 														<RadioButton fx:id="rbName" mnemonicParsing="false" text="Name" toggleGroup="$tgSearch">
-														</RadioButton>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></RadioButton>
 														<RadioButton fx:id="rbType" mnemonicParsing="false" text="Type" toggleGroup="$tgSearch">
-														</RadioButton>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></RadioButton>
 													</children>
 													<padding>
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -71,17 +84,29 @@
 													</rowConstraints>
 													<children>
 														<Label fx:id="lblSerialNumber" alignment="CENTER_RIGHT" prefWidth="125.0" text="Serial Number (SN)">
-														</Label>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></Label>
 														<Label alignment="CENTER_RIGHT" prefWidth="125.0" text="Name" GridPane.rowIndex="1">
-														</Label>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></Label>
 														<Label fx:id="lblType" alignment="CENTER_RIGHT" prefWidth="125.0" text="Type" GridPane.rowIndex="2">
-														</Label>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></Label>
 														<TextField fx:id="inputSerialNumber" prefWidth="150.0" promptText="eg. 1234567890" GridPane.columnIndex="1">
-														</TextField>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></TextField>
 														<TextField fx:id="inputName" prefWidth="150.0" promptText="eg. star" GridPane.columnIndex="1" GridPane.rowIndex="1">
-														</TextField>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></TextField>
 														<TextField fx:id="inputType" prefWidth="150.0" promptText="eg. Figures" GridPane.columnIndex="1" GridPane.rowIndex="2">
-														</TextField>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font></TextField>
 													</children>
 													<padding>
 														<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -95,12 +120,18 @@
 																<Tooltip text="Search the inventory based on the selected criteria.">
 																</Tooltip>
 															</tooltip>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
 														</Button>
 														<Button fx:id="btnClear" mnemonicParsing="false" onAction="#searchListener" prefWidth="75.0" text="Clear">
 															<tooltip>
 																<Tooltip text="Clear all search choices and results">
 																</Tooltip>
 															</tooltip>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
 														</Button>
 													</children>
 													<padding>
@@ -117,14 +148,16 @@
 												</Label>
 											</children>
 										</VBox>
-										<ListView layoutX="326.0" layoutY="47.0" prefHeight="450.0" prefWidth="460.0" />
-										<ScrollBar layoutX="772.0" layoutY="47.0" orientation="VERTICAL" prefHeight="450.0" prefWidth="14.0" />
-										<Button fx:id="btnBuy" alignment="CENTER" layoutX="541.0" layoutY="516.0" mnemonicParsing="false" onAction="#BuyListener" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
+										<Button fx:id="btnBuy" alignment="CENTER" layoutX="518.0" layoutY="518.0" mnemonicParsing="false" onAction="#searchListener" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
 											<tooltip>
-												<Tooltip text="Purchase chosen toy">
+												<Tooltip text="Select a toy from the list to enable the Buy button.">
 												</Tooltip>
 											</tooltip>
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
 										</Button>
+                              <ListView fx:id="lvToys" layoutX="326.0" layoutY="60.0" prefHeight="438.0" prefWidth="460.0" />
 									</children>
 								</AnchorPane>
 							</content>

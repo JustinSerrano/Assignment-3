@@ -31,7 +31,7 @@ public class ToyManager {
 	 */
 	public ToyManager() {
 		loadData();
-		launchApp(); // Start the main application menu
+//		launchApp(); // Start the main application menu
 	}
 
 	/**

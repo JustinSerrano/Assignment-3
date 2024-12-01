@@ -1,5 +1,7 @@
 package application;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -45,14 +47,28 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Loads the main layout from the FXML file.
+	 * Loads the main layout from the FXML file. If the file cannot be loaded, an
+	 * error is logged, and a runtime exception is thrown to terminate the
+	 * application gracefully.
 	 *
 	 * @return A BorderPane object representing the root layout of the application.
-	 * @throws Exception If the FXML file cannot be loaded.
 	 */
-	private BorderPane loadRootLayout() throws Exception {
-		// Use FXMLLoader to load the FXML file for the main layout
-		return FXMLLoader.load(getClass().getResource("../view/MainView.fxml"));
+	private BorderPane loadRootLayout() {
+		try {
+			// Use FXMLLoader to load the FXML file for the main layout
+			var resource = getClass().getResource("../view/MainView.fxml");
+			if (resource == null) {
+				throw new IOException("FXML file not found: ../view/MainView.fxml");
+			}
+			return FXMLLoader.load(resource);
+		} catch (IOException e) {
+			// Log the stack trace to the console for debugging
+			e.printStackTrace();
+			// Display an error dialog to the user
+			showInitializationError(e);
+			// Terminate the application since the main layout could not be loaded
+			throw new RuntimeException("Failed to load main layout.", e);
+		}
 	}
 
 	/**
