@@ -2,12 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
@@ -30,15 +32,15 @@
 							<content>
 								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 									<children>
-										<Label alignment="CENTER" contentDisplay="CENTER" layoutY="-4.0" prefHeight="50.0" prefWidth="800.0" text="SEARCH INVENTORY" textAlignment="CENTER">
+										<Label alignment="CENTER" contentDisplay="CENTER" layoutY="-1.0" prefHeight="50.0" prefWidth="800.0" text="SEARCH INVENTORY" textAlignment="CENTER">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                                  <font>
                                     <Font name="Arial Bold" size="24.0" />
                                  </font></Label>
-										<Separator layoutY="44.0" prefWidth="800.0" />
-										<VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="60.0" prefHeight="495.0" prefWidth="300.0">
+										<Separator layoutY="51.0" prefWidth="800.0" />
+										<VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="70.0" prefHeight="485.0" prefWidth="300.0">
 											<children>
 												<Label alignment="CENTER" prefHeight="30.0" prefWidth="300.0" text="SEARCH OPTIONS:">
 													<padding>
@@ -95,15 +97,15 @@
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font></Label>
-														<TextField fx:id="inputSerialNumber" prefWidth="150.0" promptText="eg. 1234567890" GridPane.columnIndex="1">
+														<TextField fx:id="inputSearchSerialNumber" prefWidth="150.0" promptText="eg. 1234567890" GridPane.columnIndex="1">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font></TextField>
-														<TextField fx:id="inputName" prefWidth="150.0" promptText="eg. star" GridPane.columnIndex="1" GridPane.rowIndex="1">
+														<TextField fx:id="inputSearchName" prefWidth="150.0" promptText="eg. star" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font></TextField>
-														<TextField fx:id="inputType" prefWidth="150.0" promptText="eg. Figures" GridPane.columnIndex="1" GridPane.rowIndex="2">
+														<TextField fx:id="inputSearchType" prefWidth="150.0" promptText="eg. Figures" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
                                              </font></TextField>
@@ -115,7 +117,7 @@
 												<Separator prefWidth="150.0" VBox.vgrow="NEVER" />
 												<HBox alignment="CENTER" prefHeight="150.0" prefWidth="300.0" spacing="25.0">
 													<children>
-														<Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchListener" prefWidth="75.0" styleClass="font" text="Search">
+														<Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Search">
 															<tooltip>
 																<Tooltip text="Search the inventory based on the selected criteria.">
 																</Tooltip>
@@ -124,7 +126,7 @@
                                                 <Font name="Arial" size="12.0" />
                                              </font>
 														</Button>
-														<Button fx:id="btnClear" mnemonicParsing="false" onAction="#searchListener" prefWidth="75.0" text="Clear">
+														<Button fx:id="btnClear" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" text="Clear">
 															<tooltip>
 																<Tooltip text="Clear all search choices and results">
 																</Tooltip>
@@ -138,7 +140,7 @@
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</padding>
 												</HBox>
-												<Label fx:id="lblResult" alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="300.0" textFill="RED" wrapText="true" VBox.vgrow="ALWAYS">
+												<Label fx:id="lblSearchResult" alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="300.0" textFill="RED" wrapText="true" VBox.vgrow="ALWAYS">
 													<VBox.margin>
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</VBox.margin>
@@ -148,7 +150,7 @@
 												</Label>
 											</children>
 										</VBox>
-										<Button fx:id="btnBuy" alignment="CENTER" layoutX="518.0" layoutY="518.0" mnemonicParsing="false" onAction="#searchListener" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
+										<Button fx:id="btnBuy" alignment="CENTER" layoutX="518.0" layoutY="518.0" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
 											<tooltip>
 												<Tooltip text="Select a toy from the list to enable the Buy button.">
 												</Tooltip>
@@ -157,14 +159,421 @@
                                     <Font name="Arial" size="12.0" />
                                  </font>
 										</Button>
-                              <ListView fx:id="lvToys" layoutX="326.0" layoutY="60.0" prefHeight="438.0" prefWidth="460.0" />
+                              <ListView fx:id="lvToys" layoutX="326.0" layoutY="70.0" prefHeight="428.0" prefWidth="460.0" />
 									</children>
 								</AnchorPane>
 							</content>
 						</Tab>
 						<Tab closable="false" text="Add">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutY="-1.0" prefHeight="50.0" prefWidth="800.0" text="ADD INVENTORY">
+                                 <font>
+                                    <Font name="Arial Bold" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Separator layoutY="51.0" prefHeight="0.0" prefWidth="800.0" />
+                              <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="61.0" prefHeight="500.0" prefWidth="250.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="18.0" prefWidth="250.0" text="New Toy Information:" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Arial Bold Italic" size="14.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <GridPane alignment="TOP_CENTER" hgap="5.0" vgap="5.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="85.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.19998779296878" minWidth="10.0" prefWidth="140.99997558593753" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Type" />
+                                          <Label text="Serial Number" GridPane.rowIndex="1" />
+                                          <Label text="Name" GridPane.rowIndex="2" />
+                                          <Label text="Brand" GridPane.rowIndex="3" />
+                                          <Label text="Price" GridPane.rowIndex="4" />
+                                          <Label text="Available count" GridPane.rowIndex="5" />
+                                          <Label text="Age approriate" GridPane.rowIndex="6" />
+                                          <ComboBox fx:id="cbType" prefWidth="150.0" promptText="Select type of toy" GridPane.columnIndex="1" />
+                                          <TextField fx:id="inputAddSerialNumber" promptText="eg. 1234567890" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="inputAddName" promptText="eg. myname" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="inputAddBrand" promptText="eg. mybrand" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="inputAddPrice" promptText="eg. 24.99" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="inputAddAvailableCount" promptText="eg. 5" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="inputAddAgeAppropriate" promptText="eg. 5" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </GridPane>
+                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add" underline="true">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <tooltip>
+                                          <Tooltip text="Fill required fields to add a toy">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
+                                    </Button>
+                                    <Label fx:id="lblAddResult" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="250.0" textFill="RED" wrapText="true">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Separator layoutX="273.0" layoutY="63.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="0.0" />
+                              <GridPane alignment="CENTER" layoutX="275.0" layoutY="52.0" prefHeight="520.0" prefWidth="525.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="NEVER" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="250.0" text="Figure" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Separator prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Separator>
+                                          <GridPane alignment="CENTER">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" prefWidth="100.0" text="Classification" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="cbClassification" prefWidth="150.0" promptText="Select Classification" GridPane.columnIndex="1" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </GridPane>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="250.0" text="A (Action), D (Doll), or H (Historic)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Arial Italic" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Animal" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Separator prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Separator>
+                                          <GridPane alignment="CENTER_LEFT">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" prefWidth="100.0" text="Material">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label alignment="CENTER_RIGHT" prefWidth="100.0" text="Size" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="cbSize" prefWidth="150.0" promptText="Select a size" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <TextField fx:id="inputAddMaterial" promptText="eg. wood" GridPane.columnIndex="1">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </GridPane>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="250.0" text="S (Small), M (Medium), or L (Large)" textAlignment="CENTER" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <font>
+                                                <Font name="Arial Italic" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="250.0" text="Puzzle" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Separator prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Separator>
+                                          <GridPane alignment="CENTER">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" prefWidth="100.0" text="Puzzle Type">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="cbPuzzleType" prefWidth="150.0" promptText="Select puzzle type" GridPane.columnIndex="1" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </GridPane>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="100.0" prefWidth="250.0" text="M (Mechanical), C (Cryptic), L (Logic), T (Trivia), or R (Riddle)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Arial Italic" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="250.0" text="Board Game" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Arial Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Separator prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Separator>
+                                          <GridPane alignment="CENTER" hgap="10.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="50.0" prefWidth="123.0" text="Minimum Number of players" textAlignment="RIGHT" wrapText="true">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets top="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="50.0" prefWidth="200.0" text="Maximum number of players" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" text="Designers" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="inputAddMinPlayers" promptText="eg. 2" GridPane.columnIndex="1">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </TextField>
+                                                <TextField fx:id="inputAddMaxPlayers" promptText="eg. 4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </TextField>
+                                                <TextArea fx:id="inputAddDesigners" prefHeight="200.0" prefWidth="200.0" promptText="eg. Adam Smith, John Alex" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                   </font>
+                                                </TextArea>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </GridPane>
+                                       </children>
+                                    </VBox>
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                    <Separator prefWidth="200.0" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                 </children>
+                              </GridPane>
+                           </children></AnchorPane>
 							</content>
 						</Tab>
 						<Tab closable="false" text="Remove">

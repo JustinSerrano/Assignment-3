@@ -9,9 +9,11 @@ import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import model.Animals;
@@ -37,11 +39,20 @@ public class MainViewController {
 	private List<Toy> toys; // List of toys loaded from the file
 
 	@FXML
+	private ComboBox<String> cbType;
+	@FXML
+	private ComboBox<Character> cbClassification, cbSize, cbPuzzleType;
+	@FXML
 	private Button btnSearch, btnClear, btnBuy;
 	@FXML
-	private TextField inputSerialNumber, inputName, inputType;
+	private TextField inputSearchSerialNumber, inputSearchName, inputSearchType;
 	@FXML
-	private Label lblSerialNumber, lblName, lblType, lblResult;
+	private TextField inputAddSerialNumber, inputAddName, inputAddBrand, inputAddPrice, inputAddAvailableCount,
+			inputAddAgeAppropriate, inputAddMaterial, inputAddMinPlayers, inputAddMaxPlayers;
+	@FXML
+	private TextArea inputAddDesigners;
+	@FXML
+	private Label lblSerialNumber, lblName, lblType, lblSearchResult, lblAddResult;
 	@FXML
 	private RadioButton rbSerialNumber, rbName, rbType;
 	@FXML
@@ -57,6 +68,7 @@ public class MainViewController {
 		toys = new ArrayList<>();
 		loadData();
 		setupRadioButtonListener();
+		setupComboBoxOptions();
 		disableAllInputs();
 
 		// Bind the "disable" property of the Buy button to the emptiness of the
@@ -72,25 +84,33 @@ public class MainViewController {
 		tgSearch.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
 			disableAllInputs(); // Disable all inputs by default
 			if (newToggle == rbSerialNumber) {
-				enableInputField(inputSerialNumber);
+				enableInputField(inputSearchSerialNumber);
 			} else if (newToggle == rbName) {
-				enableInputField(inputName);
+				enableInputField(inputSearchName);
 			} else if (newToggle == rbType) {
-				enableInputField(inputType);
+				enableInputField(inputSearchType);
 			}
 		});
+	}
+
+	private void setupComboBoxOptions() {
+		// Populate ComboBox options
+		cbType.getItems().addAll("Figure", "Animal", "Puzzle", "Board Game");
+		cbClassification.getItems().addAll('A', 'D', 'H');
+		cbSize.getItems().addAll('S', 'M', 'L');
+		cbPuzzleType.getItems().addAll('M', 'C', 'L', 'T', 'R');
 	}
 
 	/**
 	 * Disables all input fields and clears their content.
 	 */
 	private void disableAllInputs() {
-		inputSerialNumber.setDisable(true);
-		inputSerialNumber.clear();
-		inputName.setDisable(true);
-		inputName.clear();
-		inputType.setDisable(true);
-		inputType.clear();
+		inputSearchSerialNumber.setDisable(true);
+		inputSearchSerialNumber.clear();
+		inputSearchName.setDisable(true);
+		inputSearchName.clear();
+		inputSearchType.setDisable(true);
+		inputSearchType.clear();
 	}
 
 	/**
@@ -206,13 +226,13 @@ public class MainViewController {
 		if (event.getSource() == btnSearch) {
 			// Handle Search button click
 			if (rbSerialNumber.isSelected()) {
-				populateListView(searchBySerialNumber(inputSerialNumber.getText().trim()));
+				populateListView(searchBySerialNumber(inputSearchSerialNumber.getText().trim()));
 			} else if (rbName.isSelected()) {
-				populateListView(searchByName(inputName.getText().trim()));
+				populateListView(searchByName(inputSearchName.getText().trim()));
 			} else if (rbType.isSelected()) {
-				populateListView(searchByType(inputType.getText().trim()));
+				populateListView(searchByType(inputSearchType.getText().trim()));
 			} else {
-				lblResult.setText("Please choose a search option.");
+				lblSearchResult.setText("Please choose a search option.");
 			}
 		} else if (event.getSource() == btnClear) {
 			// Handle Clear button clicked
@@ -239,7 +259,7 @@ public class MainViewController {
 			}
 		}
 		if (results.isEmpty()) {
-			lblResult.setText(noMatchMessage);
+			lblSearchResult.setText(noMatchMessage);
 		}
 		return results;
 	}
@@ -266,9 +286,9 @@ public class MainViewController {
 	private void populateListView(List<Toy> toys) {
 		lvToys.getItems().clear();
 		if (toys.isEmpty()) {
-			lblResult.setText("No results found.");
+			lblSearchResult.setText("No results found.");
 		} else {
-			lblResult.setText(toys.size() + " result(s) found.");
+			lblSearchResult.setText(toys.size() + " result(s) found.");
 			lvToys.getItems().addAll(toys);
 		}
 	}
@@ -278,7 +298,7 @@ public class MainViewController {
 	 */
 	private void clearSearch() {
 		lvToys.getItems().clear();
-		lblResult.setText("");
+		lblSearchResult.setText("");
 		disableAllInputs();
 		tgSearch.selectToggle(null);
 	}
@@ -297,18 +317,18 @@ public class MainViewController {
 				// Remove the toy from the inventory and ListView
 				toys.remove(selectedToy);
 				lvToys.getItems().remove(selectedToy);
-				lblResult.setText(
+				lblSearchResult.setText(
 						"Successfully bought the last " + selectedToy.getName() + ". Toy removed from inventory.");
 			} else {
 				// Update the toy's stock count
 				selectedToy.setAvailableCount(newCount);
 				// Update the ListView to reflect the new available count
 				lvToys.refresh(); // Refresh the ListView to update UI
-				lblResult.setText("Successfully bought " + selectedToy.getName() + ". Remaining: "
+				lblSearchResult.setText("Successfully bought " + selectedToy.getName() + ". Remaining: "
 						+ selectedToy.getAvailableCount());
 			}
 		} else {
-			lblResult.setText("Please select a toy to buy.");
+			lblSearchResult.setText("Please select a toy to buy.");
 		}
 	}
 }
