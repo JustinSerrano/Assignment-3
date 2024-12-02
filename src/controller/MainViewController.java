@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import exceptions.NegativeNumberException;
+import exceptions.PlayerCountException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,9 +33,6 @@ import model.Toy;
  * @version 3.0
  */
 public class MainViewController {
-
-	// TODO: When exiting ask if user if they would like to save then use save
-	// method
 
 	private static final String FILE_PATH = "res/toys.txt"; // Path to toy data file
 	private List<Toy> toys; // List of toys loaded from the file
@@ -202,49 +201,48 @@ public class MainViewController {
 	 */
 	private void disableAllInputs() {
 
-	    // --- Search Tab ---
-	    inputSearchSerialNumber.clear();
-	    inputSearchSerialNumber.setDisable(true);
-	    inputSearchName.clear();
-	    inputSearchName.setDisable(true);
-	    inputSearchType.clear();
-	    inputSearchType.setDisable(true);
+		// --- Search Tab ---
+		inputSearchSerialNumber.clear();
+		inputSearchSerialNumber.setDisable(true);
+		inputSearchName.clear();
+		inputSearchName.setDisable(true);
+		inputSearchType.clear();
+		inputSearchType.setDisable(true);
 
-	    // --- Add Tab ---
-	    // Reset and clear ComboBox selections
-	    cbType.getSelectionModel().clearSelection();
-	    cbClassification.getSelectionModel().clearSelection();
-	    cbSize.getSelectionModel().clearSelection();
-	    cbPuzzleType.getSelectionModel().clearSelection();
+		// --- Add Tab ---
+		// Reset and clear ComboBox selections
+		cbType.getSelectionModel().clearSelection();
+		cbClassification.getSelectionModel().clearSelection();
+		cbSize.getSelectionModel().clearSelection();
+		cbPuzzleType.getSelectionModel().clearSelection();
 
-	    // Clear all text fields
-	    inputAddSerialNumber.clear();
-	    inputAddName.clear();
-	    inputAddBrand.clear();
-	    inputAddPrice.clear();
-	    inputAddAvailableCount.clear();
-	    inputAddAgeAppropriate.clear();
+		// Clear all text fields
+		inputAddSerialNumber.clear();
+		inputAddName.clear();
+		inputAddBrand.clear();
+		inputAddPrice.clear();
+		inputAddAvailableCount.clear();
+		inputAddAgeAppropriate.clear();
 
-	    // Disable and clear fields for Figures
-	    cbClassification.setDisable(true);
+		// Disable and clear fields for Figures
+		cbClassification.setDisable(true);
 
-	    // Disable and clear fields for Animals
-	    inputAddMaterial.clear();
-	    inputAddMaterial.setDisable(true);
-	    cbSize.setDisable(true);
+		// Disable and clear fields for Animals
+		inputAddMaterial.clear();
+		inputAddMaterial.setDisable(true);
+		cbSize.setDisable(true);
 
-	    // Disable and clear fields for Puzzles
-	    cbPuzzleType.setDisable(true);
+		// Disable and clear fields for Puzzles
+		cbPuzzleType.setDisable(true);
 
-	    // Disable and clear fields for Board Games
-	    inputAddMinPlayers.clear();
-	    inputAddMinPlayers.setDisable(true);
-	    inputAddMaxPlayers.clear();
-	    inputAddMaxPlayers.setDisable(true);
-	    inputAddDesigners.clear();
-	    inputAddDesigners.setDisable(true);
+		// Disable and clear fields for Board Games
+		inputAddMinPlayers.clear();
+		inputAddMinPlayers.setDisable(true);
+		inputAddMaxPlayers.clear();
+		inputAddMaxPlayers.setDisable(true);
+		inputAddDesigners.clear();
+		inputAddDesigners.setDisable(true);
 	}
-
 
 	private void updateUIBasedOnType(String type) {
 		// Enable/Disable specific fields based on the selected type
@@ -388,70 +386,204 @@ public class MainViewController {
 		tgSearch.selectToggle(null);
 	}
 
+	/**
+	 * Handles the Add action event.
+	 *
+	 * @param event The action event triggered by the Add tab.
+	 */
 	@FXML
 	void addListener(ActionEvent event) {
 		if (event.getSource() == btnAdd) {
 			try {
+				// Ensure the type is selected
 				String type = cbType.getValue();
 				if (type == null) {
 					lblAddResult.setText("Please select a toy type.");
 					return;
 				}
 
+				// Validate serial number with toy type
+				String serialNumber = getValidatedSerialNumber(inputAddSerialNumber, type);
+
 				// Common fields
-				String serialNumber = inputAddSerialNumber.getText().trim();
 				String name = inputAddName.getText().trim();
 				String brand = inputAddBrand.getText().trim();
-				double price = Double.parseDouble(inputAddPrice.getText().trim());
-				int availableCount = Integer.parseInt(inputAddAvailableCount.getText().trim());
-				int ageAppropriate = Integer.parseInt(inputAddAgeAppropriate.getText().trim());
+				double price = parsePositiveDouble(inputAddPrice.getText().trim(), "Price");
+				int availableCount = parsePositiveInt(inputAddAvailableCount.getText().trim(), "Available Count");
+				int ageAppropriate = parsePositiveInt(inputAddAgeAppropriate.getText().trim(), "Age Appropriate");
 
 				// Specific logic based on type
-				Toy newToy = null;
-				switch (type) {
-				case "Figure":
-					char classification = cbClassification.getValue();
-					newToy = new Figures(serialNumber, name, brand, price, availableCount, ageAppropriate,
-							classification);
-					break;
-				case "Animal":
-					String material = inputAddMaterial.getText().trim();
-					char size = cbSize.getValue();
-					newToy = new Animals(serialNumber, name, brand, price, availableCount, ageAppropriate, material,
-							size);
-					break;
-				case "Puzzle":
-					char puzzleType = cbPuzzleType.getValue();
-					newToy = new Puzzles(serialNumber, name, brand, price, availableCount, ageAppropriate, puzzleType);
-					break;
-				case "Board Game":
-					int minPlayers = Integer.parseInt(inputAddMinPlayers.getText().trim());
-					int maxPlayers = Integer.parseInt(inputAddMaxPlayers.getText().trim());
-					String designers = inputAddDesigners.getText().trim();
-					newToy = new BoardGames(serialNumber, name, brand, price, availableCount, ageAppropriate,
-							minPlayers, maxPlayers, designers);
-					break;
-				}
+				Toy newToy = createToyBasedOnType(type, serialNumber, name, brand, price, availableCount,
+						ageAppropriate);
 
-				// Add the new toy to the inventory
 				if (newToy != null) {
 					toys.add(newToy);
-					lblAddResult.setText("Toy added successfully: " + newToy.getName());
+					lblAddResult.setText("Toy added successfully: " + newToy);
 				}
-
-			} catch (NumberFormatException e) {
-				lblAddResult.setText("Invalid input: Please check your numeric fields.");
+			} catch (IllegalArgumentException e) {
+				lblAddResult.setText("Input Error: " + e.getMessage());
+			} catch (NegativeNumberException | PlayerCountException e) {
+				lblAddResult.setText("Validation Error: " + e.getMessage());
 			} catch (Exception e) {
-				lblAddResult.setText("An error occurred: " + e.getMessage());
+				lblAddResult.setText("An unexpected error occurred: " + e.getMessage());
 			}
 		} else if (event.getSource() == btnAddClear) {
 			clearAdd();
-
 		}
 	}
 
 	/**
-	 * Clears the add results and resets the input fields.
+	 * Creates a Toy object based on the selected type.
+	 *
+	 * @param type           The type of the toy (e.g., Figure, Animal).
+	 * @param serialNumber   The serial number of the toy.
+	 * @param name           The name of the toy.
+	 * @param brand          The brand of the toy.
+	 * @param price          The price of the toy.
+	 * @param availableCount The available stock count.
+	 * @param ageAppropriate The minimum age appropriate for the toy.
+	 * @return A Toy object corresponding to the selected type.
+	 * @throws NegativeNumberException If numeric values are negative.
+	 * @throws PlayerCountException    If the player count for board games is
+	 *                                 invalid.
+	 */
+	private Toy createToyBasedOnType(String type, String serialNumber, String name, String brand, double price,
+			int availableCount, int ageAppropriate) throws NegativeNumberException, PlayerCountException {
+
+		switch (type) {
+		case "Figure":
+			char classification = validateComboBoxSelection(cbClassification, "Classification");
+			return new Figures(serialNumber, name, brand, price, availableCount, ageAppropriate, classification);
+
+		case "Animal":
+			String material = inputAddMaterial.getText().trim();
+			char size = validateComboBoxSelection(cbSize, "Size");
+			return new Animals(serialNumber, name, brand, price, availableCount, ageAppropriate, material, size);
+
+		case "Puzzle":
+			char puzzleType = validateComboBoxSelection(cbPuzzleType, "Puzzle Type");
+			return new Puzzles(serialNumber, name, brand, price, availableCount, ageAppropriate, puzzleType);
+
+		case "Board Game":
+			int minPlayers = parsePositiveInt(inputAddMinPlayers.getText().trim(), "Minimum Players");
+			int maxPlayers = parsePositiveInt(inputAddMaxPlayers.getText().trim(), "Maximum Players");
+
+			if (minPlayers > maxPlayers) {
+				throw new PlayerCountException("Minimum players cannot exceed maximum players.");
+			}
+
+			String designers = inputAddDesigners.getText().trim();
+			return new BoardGames(serialNumber, name, brand, price, availableCount, ageAppropriate, minPlayers,
+					maxPlayers, designers);
+
+		default:
+			throw new IllegalArgumentException("Unknown toy type selected.");
+		}
+	}
+
+	/**
+	 * Validates that a ComboBox selection is not null and returns the selected
+	 * value.
+	 *
+	 * @param comboBox  The ComboBox to validate.
+	 * @param fieldName The name of the field for error messages.
+	 * @return The selected value from the ComboBox.
+	 * @throws IllegalArgumentException If the ComboBox selection is null.
+	 */
+	private <T> T validateComboBoxSelection(ComboBox<T> comboBox, String fieldName) {
+		if (comboBox.getValue() == null) {
+			throw new IllegalArgumentException("Please select a value for " + fieldName + ".");
+		}
+		return comboBox.getValue();
+	}
+
+	/**
+	 * Validates the format of a serial number entered in the Add tab. Ensures the
+	 * serial number contains only digits, is exactly 10 digits long, and its first
+	 * digit matches the selected toy type.
+	 *
+	 * @param serialNumberField The TextField containing the serial number input.
+	 * @param selectedToyType   The selected toy type to validate the serial number
+	 *                          against.
+	 * @return A valid serial number as a String.
+	 * @throws IllegalArgumentException If the serial number is invalid.
+	 */
+	private String getValidatedSerialNumber(TextField serialNumberField, String selectedToyType) {
+		String sn = serialNumberField.getText().trim();
+
+		// Check for numeric content and length
+		if (!sn.matches("\\d+")) {
+			throw new IllegalArgumentException("The Serial Number should only contain digits.");
+		} else if (sn.length() != 10) {
+			throw new IllegalArgumentException("The Serial Number's length must be exactly 10 digits.");
+		}
+
+		// Validate the first digit based on the toy type
+		char firstDigit = sn.charAt(0);
+		switch (selectedToyType) {
+		case "Figure":
+			if (firstDigit != '0' && firstDigit != '1') {
+				throw new IllegalArgumentException("Serial Number for Figures must start with '0' or '1'.");
+			}
+			break;
+		case "Animal":
+			if (firstDigit != '2' && firstDigit != '3') {
+				throw new IllegalArgumentException("Serial Number for Animals must start with '2' or '3'.");
+			}
+			break;
+		case "Puzzle":
+			if (firstDigit != '4' && firstDigit != '5' && firstDigit != '6') {
+				throw new IllegalArgumentException("Serial Number for Puzzles must start with '4', '5', or '6'.");
+			}
+			break;
+		case "Board Game":
+			if (firstDigit != '7' && firstDigit != '8' && firstDigit != '9') {
+				throw new IllegalArgumentException("Serial Number for Board Games must start with '7', '8', or '9'.");
+			}
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown toy type selected for validation.");
+		}
+
+		return sn; // Serial number is valid
+	}
+
+	/**
+	 * Parses a positive integer from the input string.
+	 *
+	 * @param input     The input string to parse.
+	 * @param fieldName The name of the field for error messages.
+	 * @return A positive integer.
+	 * @throws NegativeNumberException If the value is negative.
+	 * @throws NumberFormatException   If the input is not a valid integer.
+	 */
+	private int parsePositiveInt(String input, String fieldName) throws NegativeNumberException {
+		int value = Integer.parseInt(input);
+		if (value < 0) {
+			throw new NegativeNumberException(fieldName + " cannot be negative.");
+		}
+		return value;
+	}
+
+	/**
+	 * Parses a positive double from the input string.
+	 *
+	 * @param input     The input string to parse.
+	 * @param fieldName The name of the field for error messages.
+	 * @return A positive double.
+	 * @throws NegativeNumberException If the value is negative.
+	 * @throws NumberFormatException   If the input is not a valid double.
+	 */
+	private double parsePositiveDouble(String input, String fieldName) throws NegativeNumberException {
+		double value = Double.parseDouble(input);
+		if (value < 0) {
+			throw new NegativeNumberException(fieldName + " cannot be negative.");
+		}
+		return value;
+	}
+
+	/**
+	 * Clears the Add tab input fields and resets the UI.
 	 */
 	private void clearAdd() {
 		lblAddResult.setText("");
