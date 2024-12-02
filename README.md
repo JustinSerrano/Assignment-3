@@ -51,5 +51,5 @@ res/
  ├── toys.txt                     # Default toy data file
 ```
 
-**Author**: Justin Serrano
-**Version**: 3.0
+- **Author**: Justin Serrano
+- **Version**: 3.0
