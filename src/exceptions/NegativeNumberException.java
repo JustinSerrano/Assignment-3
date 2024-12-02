@@ -10,7 +10,7 @@ package exceptions;
  * </p>
  *
  * @author Justin, Fatema, Manveet
- * @version 3
+ * @version 3.0
  */
 public class NegativeNumberException extends Exception {
 

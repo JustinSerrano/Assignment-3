@@ -40,14 +40,14 @@
                                     <Font name="Arial Bold" size="24.0" />
                                  </font></Label>
 										<Separator layoutY="51.0" prefWidth="800.0" />
-										<VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="70.0" prefHeight="485.0" prefWidth="300.0">
+										<VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="75.0" prefHeight="485.0" prefWidth="300.0">
 											<children>
-												<Label alignment="CENTER" prefHeight="30.0" prefWidth="300.0" text="SEARCH OPTIONS:">
+												<Label alignment="CENTER" prefHeight="30.0" prefWidth="300.0" text="Search Options:">
 													<padding>
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</padding>
                                        <font>
-                                          <Font name="Arial Bold Italic" size="12.0" />
+                                          <Font name="Arial Bold Italic" size="14.0" />
                                        </font>
 												</Label>
 												<HBox alignment="CENTER" prefHeight="40.0" prefWidth="300.0" spacing="10.0">
@@ -115,7 +115,7 @@
 													</padding>
 												</GridPane>
 												<Separator prefWidth="150.0" VBox.vgrow="NEVER" />
-												<HBox alignment="CENTER" prefHeight="150.0" prefWidth="300.0" spacing="25.0">
+												<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
 													<children>
 														<Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Search">
 															<tooltip>
@@ -140,7 +140,7 @@
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</padding>
 												</HBox>
-												<Label fx:id="lblSearchResult" alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="300.0" textFill="RED" wrapText="true" VBox.vgrow="ALWAYS">
+												<Label fx:id="lblSearchResult" alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="300.0" wrapText="true" VBox.vgrow="ALWAYS">
 													<VBox.margin>
 														<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 													</VBox.margin>
@@ -150,7 +150,7 @@
 												</Label>
 											</children>
 										</VBox>
-										<Button fx:id="btnBuy" alignment="CENTER" layoutX="518.0" layoutY="518.0" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
+										<Button fx:id="btnBuy" alignment="CENTER" layoutX="515.0" layoutY="515.0" mnemonicParsing="false" onAction="#searchListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Buy" underline="true">
 											<tooltip>
 												<Tooltip text="Select a toy from the list to enable the Buy button.">
 												</Tooltip>
@@ -159,7 +159,7 @@
                                     <Font name="Arial" size="12.0" />
                                  </font>
 										</Button>
-                              <ListView fx:id="lvToys" layoutX="326.0" layoutY="70.0" prefHeight="428.0" prefWidth="460.0" />
+                              <ListView fx:id="lvSearchToys" layoutX="325.0" layoutY="75.0" prefHeight="430.0" prefWidth="460.0" />
 									</children>
 								</AnchorPane>
 							</content>
@@ -177,7 +177,7 @@
                                  </padding>
                               </Label>
                               <Separator layoutY="51.0" prefHeight="0.0" prefWidth="800.0" />
-                              <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="61.0" prefHeight="500.0" prefWidth="250.0">
+                              <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="60.0" prefHeight="500.0" prefWidth="250.0">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="18.0" prefWidth="250.0" text="New Toy Information:" textAlignment="CENTER">
                                        <font>
@@ -299,7 +299,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </HBox>
-                                    <Label fx:id="lblAddResult" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="250.0" textFill="RED" wrapText="true">
+                                    <Label fx:id="lblAddResult" alignment="CENTER" prefHeight="150.0" prefWidth="250.0" wrapText="true">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
@@ -310,7 +310,7 @@
                                  </children>
                               </VBox>
                               <Separator layoutX="273.0" layoutY="63.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="0.0" />
-                              <GridPane alignment="CENTER" layoutX="275.0" layoutY="52.0" prefHeight="520.0" prefWidth="525.0">
+                              <GridPane alignment="CENTER" layoutX="275.0" layoutY="50.0" prefHeight="520.0" prefWidth="525.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="NEVER" />
@@ -329,7 +329,7 @@
                                                 <Font name="Arial Bold" size="14.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
                                              </VBox.margin>
                                           </Label>
                                           <Separator prefWidth="200.0">
@@ -380,7 +380,7 @@
                                                 <Font name="Arial Bold" size="14.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
                                              </VBox.margin>
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -600,7 +600,96 @@
 						</Tab>
 						<Tab closable="false" text="Remove">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="75.0" prefHeight="485.0" prefWidth="300.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="300.0" text="Toy Serial Number:">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Arial Bold Italic" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator prefWidth="100.0" VBox.vgrow="NEVER" />
+                                    <GridPane alignment="CENTER_LEFT" hgap="10.0" prefWidth="300.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="RIGHT" minWidth="10.0" />
+                                          <ColumnConstraints minWidth="10.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label fx:id="lblRemoveSerialNumber" alignment="CENTER_RIGHT" prefWidth="125.0" text="Serial Number (SN)">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="inputRemoveSerialNumber" prefWidth="150.0" promptText="eg. 1234567890" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                    <Separator prefWidth="150.0" VBox.vgrow="NEVER" />
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                       <children>
+                                          <Button fx:id="btnRemoveSearch" mnemonicParsing="false" onAction="#removeListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Search">
+                                             <tooltip>
+                                                <Tooltip text="Search the inventory based on the selected criteria." />
+                                             </tooltip>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnRemoveClear" mnemonicParsing="false" onAction="#removeListener" prefHeight="25.0" prefWidth="75.0" text="Clear">
+                                             <tooltip>
+                                                <Tooltip text="Clear all search choices and results" />
+                                             </tooltip>
+                                             <font>
+                                                <Font name="Arial" size="12.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Label fx:id="lblRemoveResult" alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="300.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="800.0" text="REMOVE INVENTORY" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Arial Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutY="50.0" prefHeight="0.0" prefWidth="800.0" />
+                              <ListView fx:id="lvRemoveToys" layoutX="325.0" layoutY="75.0" prefHeight="430.0" prefWidth="460.0" />
+                              <Button fx:id="btnRemove" alignment="CENTER" layoutX="515.0" layoutY="515.0" mnemonicParsing="false" onAction="#removeListener" prefHeight="25.0" prefWidth="75.0" styleClass="font" text="Remove" underline="true">
+                                 <tooltip>
+                                    <Tooltip text="Select a toy from the list to enable the Buy button." />
+                                 </tooltip>
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children></AnchorPane>
 							</content>
 						</Tab>
 					</tabs>

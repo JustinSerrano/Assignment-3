@@ -7,7 +7,7 @@ package model;
  * implement specific behavior for `getToyType` and `toDataString`.
  * 
  * @author Justin, Fatema, Manveet
- * @version 2.0
+ * @version 3.0
  */
 public abstract class Toy {
 

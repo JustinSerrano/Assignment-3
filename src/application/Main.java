@@ -18,7 +18,7 @@ import javafx.scene.control.Alert;
  * </p>
  * 
  * @author Justin Serrano
- * @version 3
+ * @version 3.0
  * 
  */
 public class Main extends Application {

@@ -6,7 +6,7 @@ package model;
  * Material and size indicate the type and scale of the toy, respectively.
  * 
  * @author Justin, Fatema, Manveet 
- * @version 2.0
+ * @version 3.0
  */
 public class Animals extends Toy {
 
