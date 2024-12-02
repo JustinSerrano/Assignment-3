@@ -43,7 +43,7 @@ public class MainViewController {
 	@FXML
 	private ComboBox<Character> cbClassification, cbSize, cbPuzzleType;
 	@FXML
-	private Button btnSearch, btnClear, btnBuy;
+	private Button btnSearch, btnSearchClear, btnBuy, btnAdd, btnAddClear;
 	@FXML
 	private TextField inputSearchSerialNumber, inputSearchName, inputSearchType;
 	@FXML
@@ -74,53 +74,9 @@ public class MainViewController {
 		// Bind the "disable" property of the Buy button to the emptiness of the
 		// ListView's items
 		btnBuy.disableProperty().bind(javafx.beans.binding.Bindings.isEmpty(lvToys.getItems()));
-	}
 
-	/**
-	 * Sets up a listener for the ToggleGroup to enable the appropriate input field
-	 * based on the selected radio button.
-	 */
-	private void setupRadioButtonListener() {
-		tgSearch.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-			disableAllInputs(); // Disable all inputs by default
-			if (newToggle == rbSerialNumber) {
-				enableInputField(inputSearchSerialNumber);
-			} else if (newToggle == rbName) {
-				enableInputField(inputSearchName);
-			} else if (newToggle == rbType) {
-				enableInputField(inputSearchType);
-			}
-		});
-	}
-
-	private void setupComboBoxOptions() {
-		// Populate ComboBox options
-		cbType.getItems().addAll("Figure", "Animal", "Puzzle", "Board Game");
-		cbClassification.getItems().addAll('A', 'D', 'H');
-		cbSize.getItems().addAll('S', 'M', 'L');
-		cbPuzzleType.getItems().addAll('M', 'C', 'L', 'T', 'R');
-	}
-
-	/**
-	 * Disables all input fields and clears their content.
-	 */
-	private void disableAllInputs() {
-		inputSearchSerialNumber.setDisable(true);
-		inputSearchSerialNumber.clear();
-		inputSearchName.setDisable(true);
-		inputSearchName.clear();
-		inputSearchType.setDisable(true);
-		inputSearchType.clear();
-	}
-
-	/**
-	 * Enables a specific input field while disabling others.
-	 *
-	 * @param inputField The input field to enable.
-	 */
-	private void enableInputField(TextField inputField) {
-		disableAllInputs();
-		inputField.setDisable(false);
+		// Add listeners to update the UI based on the selected type
+		cbType.valueProperty().addListener((observable, oldValue, newValue) -> updateUIBasedOnType(newValue));
 	}
 
 	/**
@@ -217,6 +173,106 @@ public class MainViewController {
 	}
 
 	/**
+	 * Sets up a listener for the ToggleGroup to enable the appropriate input field
+	 * based on the selected radio button.
+	 */
+	private void setupRadioButtonListener() {
+		tgSearch.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+			disableAllInputs(); // Disable all inputs by default
+			if (newToggle == rbSerialNumber) {
+				enableInputField(inputSearchSerialNumber);
+			} else if (newToggle == rbName) {
+				enableInputField(inputSearchName);
+			} else if (newToggle == rbType) {
+				enableInputField(inputSearchType);
+			}
+		});
+	}
+
+	private void setupComboBoxOptions() {
+		// Populate ComboBox options
+		cbType.getItems().addAll("Figure", "Animal", "Puzzle", "Board Game");
+		cbClassification.getItems().addAll('A', 'D', 'H');
+		cbSize.getItems().addAll('S', 'M', 'L');
+		cbPuzzleType.getItems().addAll('M', 'C', 'L', 'T', 'R');
+	}
+
+	/**
+	 * Disables all input fields and clears their content across all tabs.
+	 */
+	private void disableAllInputs() {
+
+	    // --- Search Tab ---
+	    inputSearchSerialNumber.clear();
+	    inputSearchSerialNumber.setDisable(true);
+	    inputSearchName.clear();
+	    inputSearchName.setDisable(true);
+	    inputSearchType.clear();
+	    inputSearchType.setDisable(true);
+
+	    // --- Add Tab ---
+	    // Reset and clear ComboBox selections
+	    cbType.getSelectionModel().clearSelection();
+	    cbClassification.getSelectionModel().clearSelection();
+	    cbSize.getSelectionModel().clearSelection();
+	    cbPuzzleType.getSelectionModel().clearSelection();
+
+	    // Clear all text fields
+	    inputAddSerialNumber.clear();
+	    inputAddName.clear();
+	    inputAddBrand.clear();
+	    inputAddPrice.clear();
+	    inputAddAvailableCount.clear();
+	    inputAddAgeAppropriate.clear();
+
+	    // Disable and clear fields for Figures
+	    cbClassification.setDisable(true);
+
+	    // Disable and clear fields for Animals
+	    inputAddMaterial.clear();
+	    inputAddMaterial.setDisable(true);
+	    cbSize.setDisable(true);
+
+	    // Disable and clear fields for Puzzles
+	    cbPuzzleType.setDisable(true);
+
+	    // Disable and clear fields for Board Games
+	    inputAddMinPlayers.clear();
+	    inputAddMinPlayers.setDisable(true);
+	    inputAddMaxPlayers.clear();
+	    inputAddMaxPlayers.setDisable(true);
+	    inputAddDesigners.clear();
+	    inputAddDesigners.setDisable(true);
+	}
+
+
+	private void updateUIBasedOnType(String type) {
+		// Enable/Disable specific fields based on the selected type
+		boolean isFigure = "Figure".equals(type);
+		boolean isAnimal = "Animal".equals(type);
+		boolean isPuzzle = "Puzzle".equals(type);
+		boolean isBoardGame = "Board Game".equals(type);
+
+		cbClassification.setDisable(!isFigure);
+		cbSize.setDisable(!isAnimal);
+		inputAddMaterial.setDisable(!isAnimal);
+		cbPuzzleType.setDisable(!isPuzzle);
+		inputAddMinPlayers.setDisable(!isBoardGame);
+		inputAddMaxPlayers.setDisable(!isBoardGame);
+		inputAddDesigners.setDisable(!isBoardGame);
+	}
+
+	/**
+	 * Enables a specific input field while disabling others.
+	 *
+	 * @param inputField The input field to enable.
+	 */
+	private void enableInputField(TextField inputField) {
+		disableAllInputs();
+		inputField.setDisable(false);
+	}
+
+	/**
 	 * Handles the Search action event.
 	 *
 	 * @param event The action event triggered by the Search tab.
@@ -234,13 +290,42 @@ public class MainViewController {
 			} else {
 				lblSearchResult.setText("Please choose a search option.");
 			}
-		} else if (event.getSource() == btnClear) {
+		} else if (event.getSource() == btnSearchClear) {
 			// Handle Clear button clicked
 			clearSearch();
 		} else if (event.getSource() == btnBuy) {
 			// Handle Buy Button click
 			buySearch();
 		}
+	}
+
+	/**
+	 * Populates the ListView with search results.
+	 *
+	 * @param toys The list of toys to display in the ListView.
+	 */
+	private void populateListView(List<Toy> toys) {
+		lvToys.getItems().clear();
+		if (toys.isEmpty()) {
+			lblSearchResult.setText("No results found.");
+		} else {
+			lblSearchResult.setText(toys.size() + " result(s) found.");
+			lvToys.getItems().addAll(toys);
+		}
+	}
+
+	private List<Toy> searchBySerialNumber(String serialNumber) {
+		return filterToys(toy -> toy.getSn().equals(serialNumber),
+				"No toy found with the serial number: " + serialNumber);
+	}
+
+	private List<Toy> searchByName(String toyName) {
+		return filterToys(toy -> toy.getName().toLowerCase().contains(toyName.toLowerCase()),
+				"No toy found with the name: " + toyName);
+	}
+
+	private List<Toy> searchByType(String type) {
+		return filterToys(toy -> toy.getToyType().equalsIgnoreCase(type), "No toy found with the type: " + type);
 	}
 
 	/**
@@ -262,45 +347,6 @@ public class MainViewController {
 			lblSearchResult.setText(noMatchMessage);
 		}
 		return results;
-	}
-
-	private List<Toy> searchBySerialNumber(String serialNumber) {
-		return filterToys(toy -> toy.getSn().equals(serialNumber),
-				"No toy found with the serial number: " + serialNumber);
-	}
-
-	private List<Toy> searchByName(String toyName) {
-		return filterToys(toy -> toy.getName().toLowerCase().contains(toyName.toLowerCase()),
-				"No toy found with the name: " + toyName);
-	}
-
-	private List<Toy> searchByType(String type) {
-		return filterToys(toy -> toy.getToyType().equalsIgnoreCase(type), "No toy found with the type: " + type);
-	}
-
-	/**
-	 * Populates the ListView with search results.
-	 *
-	 * @param toys The list of toys to display in the ListView.
-	 */
-	private void populateListView(List<Toy> toys) {
-		lvToys.getItems().clear();
-		if (toys.isEmpty()) {
-			lblSearchResult.setText("No results found.");
-		} else {
-			lblSearchResult.setText(toys.size() + " result(s) found.");
-			lvToys.getItems().addAll(toys);
-		}
-	}
-
-	/**
-	 * Clears the search results and resets the input fields.
-	 */
-	private void clearSearch() {
-		lvToys.getItems().clear();
-		lblSearchResult.setText("");
-		disableAllInputs();
-		tgSearch.selectToggle(null);
 	}
 
 	/**
@@ -331,4 +377,85 @@ public class MainViewController {
 			lblSearchResult.setText("Please select a toy to buy.");
 		}
 	}
+
+	/**
+	 * Clears the search results and resets the input fields.
+	 */
+	private void clearSearch() {
+		lvToys.getItems().clear();
+		lblSearchResult.setText("");
+		disableAllInputs();
+		tgSearch.selectToggle(null);
+	}
+
+	@FXML
+	void addListener(ActionEvent event) {
+		if (event.getSource() == btnAdd) {
+			try {
+				String type = cbType.getValue();
+				if (type == null) {
+					lblAddResult.setText("Please select a toy type.");
+					return;
+				}
+
+				// Common fields
+				String serialNumber = inputAddSerialNumber.getText().trim();
+				String name = inputAddName.getText().trim();
+				String brand = inputAddBrand.getText().trim();
+				double price = Double.parseDouble(inputAddPrice.getText().trim());
+				int availableCount = Integer.parseInt(inputAddAvailableCount.getText().trim());
+				int ageAppropriate = Integer.parseInt(inputAddAgeAppropriate.getText().trim());
+
+				// Specific logic based on type
+				Toy newToy = null;
+				switch (type) {
+				case "Figure":
+					char classification = cbClassification.getValue();
+					newToy = new Figures(serialNumber, name, brand, price, availableCount, ageAppropriate,
+							classification);
+					break;
+				case "Animal":
+					String material = inputAddMaterial.getText().trim();
+					char size = cbSize.getValue();
+					newToy = new Animals(serialNumber, name, brand, price, availableCount, ageAppropriate, material,
+							size);
+					break;
+				case "Puzzle":
+					char puzzleType = cbPuzzleType.getValue();
+					newToy = new Puzzles(serialNumber, name, brand, price, availableCount, ageAppropriate, puzzleType);
+					break;
+				case "Board Game":
+					int minPlayers = Integer.parseInt(inputAddMinPlayers.getText().trim());
+					int maxPlayers = Integer.parseInt(inputAddMaxPlayers.getText().trim());
+					String designers = inputAddDesigners.getText().trim();
+					newToy = new BoardGames(serialNumber, name, brand, price, availableCount, ageAppropriate,
+							minPlayers, maxPlayers, designers);
+					break;
+				}
+
+				// Add the new toy to the inventory
+				if (newToy != null) {
+					toys.add(newToy);
+					lblAddResult.setText("Toy added successfully: " + newToy.getName());
+				}
+
+			} catch (NumberFormatException e) {
+				lblAddResult.setText("Invalid input: Please check your numeric fields.");
+			} catch (Exception e) {
+				lblAddResult.setText("An error occurred: " + e.getMessage());
+			}
+		} else if (event.getSource() == btnAddClear) {
+			clearAdd();
+
+		}
+	}
+
+	/**
+	 * Clears the add results and resets the input fields.
+	 */
+	private void clearAdd() {
+		lblAddResult.setText("");
+		disableAllInputs();
+	}
+
 }
