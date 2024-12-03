@@ -14,7 +14,7 @@ import model.*;
  * These tests cover adding toys to the inventory.
  * </p>
  * 
- * @author Justin
+ * @author Justin, Fatema, Manveet
  * @version 3.0
  */
 class MainViewControllerTest {

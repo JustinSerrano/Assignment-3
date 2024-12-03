@@ -1,7 +1,6 @@
 package application;
 
-import java.io.IOException;
-
+import controller.MainViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,33 +11,49 @@ import javafx.scene.control.Alert;
 /**
  * Main entry point for the Toy Store Management JavaFX application.
  * <p>
- * This class initializes and configures the primary stage, loads the main FXML
- * layout, applies optional CSS styling, and handles any exceptions that may
- * occur during the initialization process.
+ * This class initializes the JavaFX application, loads the FXML layout, sets up
+ * the primary stage, applies CSS styling, and handles exceptions during
+ * initialization. It also manages the application lifecycle and integrates
+ * custom exit confirmation behavior.
  * </p>
  * 
- * @author Justin Serrano
+ * @author Justin, Fatema, Manveet
  * @version 3.0
- * 
  */
 public class Main extends Application {
 
 	/**
-	 * Entry point for the JavaFX application. Configures the primary stage and sets
-	 * up the user interface by loading the FXML layout and applying styles.
+	 * Configures and starts the JavaFX application.
+	 * <p>
+	 * This method initializes the primary stage by loading the FXML layout,
+	 * configuring the scene, and setting up an exit confirmation dialog to prompt
+	 * the user before closing the application.
+	 * </p>
 	 *
 	 * @param primaryStage The primary stage for the application.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			// Load the root layout from FXML
-			BorderPane root = loadRootLayout();
+			// Load the root layout from FXML and get the controller
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MainView.fxml"));
+			BorderPane root = loader.load();
+
+			// Get the controller instance
+			MainViewController controller = loader.getController();
 
 			// Create and configure the scene
 			Scene scene = setupScene(root);
 
-			// Configure the stage and display the application
+			// Configure the stage and set an onCloseRequest handler
+			primaryStage.setOnCloseRequest(event -> {
+				// Consume the event to handle it manually
+				event.consume();
+				// Show the exit confirmation dialog
+				controller.showExitConfirmation(primaryStage);
+			});
+
+			// Configure and show the stage
 			setupStage(primaryStage, scene);
 		} catch (Exception e) {
 			// Display an error dialog if initialization fails
@@ -47,35 +62,15 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Loads the main layout from the FXML file. If the file cannot be loaded, an
-	 * error is logged, and a runtime exception is thrown to terminate the
-	 * application gracefully.
-	 *
-	 * @return A BorderPane object representing the root layout of the application.
-	 */
-	private BorderPane loadRootLayout() {
-		try {
-			// Use FXMLLoader to load the FXML file for the main layout
-			var resource = getClass().getResource("../view/MainView.fxml");
-			if (resource == null) {
-				throw new IOException("FXML file not found: ../view/MainView.fxml");
-			}
-			return FXMLLoader.load(resource);
-		} catch (IOException e) {
-			// Log the stack trace to the console for debugging
-			e.printStackTrace();
-			// Display an error dialog to the user
-			showInitializationError(e);
-			// Terminate the application since the main layout could not be loaded
-			throw new RuntimeException("Failed to load main layout.", e);
-		}
-	}
-
-	/**
-	 * Sets up the main scene for the application, including loading CSS styles.
+	 * Sets up the main scene for the application.
+	 * <p>
+	 * This method creates the scene using the root layout and applies an external
+	 * CSS stylesheet for consistent styling.
+	 * </p>
 	 *
 	 * @param root The root layout of the application.
-	 * @return A Scene object with the specified root layout and styles applied.
+	 * @return A {@link Scene} object with the specified root layout and styles
+	 *         applied.
 	 */
 	private Scene setupScene(BorderPane root) {
 		// Create a scene with the specified root layout and initial dimensions
@@ -88,8 +83,11 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Configures the primary stage for the application, including setting the title
-	 * and making the window resizable.
+	 * Configures the primary stage for the application.
+	 * <p>
+	 * This method sets the title, applies the main scene to the stage, and makes
+	 * the window resizable.
+	 * </p>
 	 *
 	 * @param primaryStage The primary stage for the application.
 	 * @param scene        The main scene to be displayed on the stage.
@@ -102,10 +100,13 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Displays an error dialog if an exception occurs during application
-	 * initialization.
+	 * Displays an error dialog when an exception occurs during initialization.
+	 * <p>
+	 * This method logs the exception to the console and shows an alert dialog with
+	 * the error details to inform the user.
+	 * </p>
 	 *
-	 * @param e The exception that occurred.
+	 * @param e The exception that occurred during initialization.
 	 */
 	private void showInitializationError(Exception e) {
 		// Log the stack trace to the console
@@ -120,7 +121,11 @@ public class Main extends Application {
 	}
 
 	/**
-	 * The main method, which serves as the entry point for the application.
+	 * The main method, serving as the entry point for the JavaFX application.
+	 * <p>
+	 * This method launches the JavaFX application by calling
+	 * {@link #launch(String[])}.
+	 * </p>
 	 *
 	 * @param args Command-line arguments passed to the application.
 	 */

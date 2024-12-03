@@ -17,6 +17,7 @@ This is a **JavaFX-based application** for managing a toy inventory system. It a
 - **Remove Toys**: Search for toys by serial number and remove them from the inventory.
 - **Persistent Storage**: All inventory data is saved to `toys.txt` to maintain consistency between sessions.
 - **Exit Confirmation**: Prompts the user to save changes before exiting the application.
+- **Logging**: Tracks user activity and records events in the `application.log` file for monitoring and debugging purposes.
 
 ## Project Structure
 
@@ -65,5 +66,5 @@ res/
 - **ChatGPT**: Assists with generating boilerplate code, improving documentation, debugging logic, and enhancing productivity.
 
 ## Author
-- **Name**: Justin Serrano
+- **Name**: Justin Serrano, Fatema Mahmud, Manveet Gill
 - **Version**: 3.0
